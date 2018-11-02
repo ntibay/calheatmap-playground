@@ -1,0 +1,37 @@
+<!-- All thanks to https://cal-heatmap.com/ for the sample codes used here -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Cal Heatmap</title>
+    <script type="text/javascript" src="//d3js.org/d3.v3.min.js"></script>
+    <script type="text/javascript" src="//cdn.jsdelivr.net/cal-heatmap/3.3.10/cal-heatmap.min.js"></script>
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/cal-heatmap/3.3.10/cal-heatmap.css" />
+</head>
+<body>
+    <div id="cal-heatmap"></div>
+    <script type="text/javascript">
+        var parser = function(data) {
+            var stats = {};
+            for (var d in data) {
+                var newDate = new Date(data[d].created_at);
+                // Need to convert milliseconds to seconds
+                stats[newDate.getTime() / 1000] = data[d].count;
+            }
+            return stats;
+        };
+
+        var cal = new CalHeatMap();
+        cal.init({
+            domain: "month",
+            subDomain: "x_day",
+            // data: "query_result_11924.json",
+            data: "query_result_36181.json",
+            // data: "query_result.json",
+            afterLoadData: parser,
+            start: new Date(2018, 6, 1),
+            legend: [2, 3, 5, 8, 13, 21],  // Fibonacci number for the win!
+        });
+    </script>
+</body>
+</html>
